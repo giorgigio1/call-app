@@ -1,35 +1,30 @@
-import React, { ChangeEvent } from "react";
+import React from "react";
 import styled from "styled-components";
+import { useField } from "formik";
 
 interface Props {
   label: string;
-  onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
-  onBlur?: (event: ChangeEvent<HTMLSelectElement>) => void;
-  value: string | "male" | "female";
-  error: string;
+  name: string;
 }
 
-export const Select: React.FC<Props> = ({
-  label,
-  onChange,
-  onBlur,
-  value,
-  error,
-}) => {
+export const Select: React.FC<Props> = ({ label, ...props }) => {
+  const [field, meta] = useField(props);
+
   return (
     <WrapperDiv>
       <label>{label}</label>
       <select
-        onChange={onChange}
-        onBlur={onBlur}
-        value={value}
-        className={error ? "inpError" : ""}
+        {...props}
+        {...field}
+        className={meta.error && meta.touched ? "inpError" : ""}
       >
         <option hidden>Select Gender</option>
         <option value="male">Male</option>
         <option value="female">Female</option>
       </select>
-      {error && <label style={{ color: "red" }}>{error}</label>}
+      {meta.error && meta.touched && (
+        <label style={{ color: "red" }}>{meta.error}</label>
+      )}
     </WrapperDiv>
   );
 };

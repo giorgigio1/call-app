@@ -143,7 +143,7 @@ export const App = () => {
           setDataSource={setDataSource}
         />
       )}
-      {editPersonModalOpen && (
+      {editPersonModalOpen && (editPerson !== null) && (
         <EditPersonModal
           editPersonModalOpen={editPersonModalOpen}
           setEditPersonModalOpen={setEditPersonModalOpen}

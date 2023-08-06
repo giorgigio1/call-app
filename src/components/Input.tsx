@@ -1,37 +1,28 @@
-import React, { ChangeEvent } from "react";
+import React, { FocusEvent } from "react";
 import styled from "styled-components";
+import { useField } from "formik";
 
 interface Props {
   label: string;
   placeholder: string;
-  type: "text" | "email" | "number";
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  onBlur: (event: ChangeEvent<HTMLInputElement>) => void;
-  value: string;
-  error?: string;
+  type?: "text" | "email" | "number";
+  name: string;
 }
 
-export const Inputs: React.FC<Props> = ({
-  label,
-  placeholder,
-  type,
-  onChange,
-  onBlur,
-  value,
-  error,
-}) => {
+export const Inputs: React.FC<Props> = ({ label, ...props }) => {
+  const [field, meta] = useField(props);
+
   return (
     <WrapperDiv>
       <label>{label}</label>
       <input
-        placeholder={placeholder}
-        type={type}
-        onChange={onChange}
-        onBlur={onBlur}
-        value={value}
-        className={error ? "inpError" : ""}
+        {...props}
+        {...field}
+        className={meta.touched && meta.error ? "inpError" : ""}
       />
-      {error && <label style={{ color: "red" }}>{error}</label>}
+      {meta.touched && meta.error && (
+        <label style={{ color: "red" }}>{meta.error}</label>
+      )}
     </WrapperDiv>
   );
 };

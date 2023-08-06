@@ -20,3 +20,6 @@ input .inpError {
   border: none !important;
   outline: 1px solid red;
 }
+.error {
+  color: red;
+}
